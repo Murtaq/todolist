@@ -1,0 +1,11 @@
+@use '@angular/material' as mat;
+
+$palette: mat.define-palette(mat.$deep-purple-palette);
+
+:host {
+    width: 480px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid mat.get-color-from-palette($palette, default);
+    background-color: mat.get-color-from-palette($palette, 200);
+}

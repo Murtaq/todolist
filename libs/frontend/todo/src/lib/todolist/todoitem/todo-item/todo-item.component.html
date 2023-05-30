@@ -1,0 +1,25 @@
+<mat-checkbox
+  color="primary"
+  [checked]="isChecked$ | async"
+  (change)="onChecked($event.checked)"
+  [ngStyle]="{
+      'text-decoration': (isChecked$ | async) ? 'line-through' : 'none',
+    }"
+  ><span>{{ todoText$ | async }}</span>
+</mat-checkbox>
+<button
+  mat-mini-fab
+  color="primary"
+  aria-label="Edit the todo item after clicking."
+  (click)="onEdit()"
+>
+  <mat-icon>edit</mat-icon>
+</button>
+<button
+  mat-mini-fab
+  color="warn"
+  aria-label="Delete the todo item after clicking."
+  (click)="onDelete()"
+>
+  <mat-icon>delete</mat-icon>
+</button>

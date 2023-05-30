@@ -1,0 +1,36 @@
+<form [formGroup]="editTodoForm" (ngSubmit)="onFormSubmit()">
+  <mat-form-field
+    appearance="outline"
+    hideRequiredMarker
+    subscriptSizing="dynamic"
+  >
+    <mat-label>Edit Todo Item</mat-label>
+    <input
+      type="text"
+      matInput
+      [value]="todoText$ | async"
+      formControlName="editItem"
+      autofocus
+      onfocus="this.select()"
+    />
+    <mat-error *ngIf="editTodoForm.controls['editItem'].hasError('required')">
+      Text is required.
+    </mat-error>
+  </mat-form-field>
+  <button
+    type="submit"
+    mat-mini-fab
+    color="accent"
+    aria-label="Edit the text of the todo item."
+  >
+    <mat-icon>check</mat-icon>
+  </button>
+  <button
+    mat-mini-fab
+    color="warn"
+    aria-label="Cancel the editing."
+    (click)="onCancelEdit()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</form>

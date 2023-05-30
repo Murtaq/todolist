@@ -1,0 +1,28 @@
+<form [formGroup]="newTodoForm" (ngSubmit)="onFormSubmit()">
+  <mat-form-field
+    appearance="outline"
+    hideRequiredMarker
+    subscriptSizing="dynamic"
+  >
+    <mat-label>Add new Todo Item</mat-label>
+    <input
+      type="text"
+      matInput
+      [formControl]="newTodoForm.controls.newItem"
+      [errorStateMatcher]="errorMatcher"
+      placeholder="Example: Fix bug"
+      value=""
+    />
+    <mat-error *ngIf="newTodoForm.controls.newItem.hasError('required')">
+      Text is required.
+    </mat-error>
+  </mat-form-field>
+  <button
+    type="submit"
+    mat-mini-fab
+    color="accent"
+    aria-label="Enter text for new todo item."
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</form>

@@ -1,0 +1,13 @@
+<div>
+  <h2>I have to do the following:</h2>
+  <ng-container *ngIf="($todoItems | async)?.length; else nothingToDo">
+    <todolist-item
+      *ngFor="let todo of $todoItems | async"
+      [todo]="todo"
+    ></todolist-item>
+  </ng-container>
+  <ng-template #nothingToDo>
+    <h3>Nothing, yay! 🎉</h3>
+  </ng-template>
+  <todolist-creator></todolist-creator>
+</div>
