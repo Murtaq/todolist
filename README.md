@@ -26,7 +26,7 @@ Afterwards you can find
 - the Angular front-end on [https://localhost:4200](https://localhost:4200)
 - the Quarkus back-end on [https://localhost:8080](https://localhost:8080)
 - the back-end development ui on [http://localhost:8080/q/dev-ui](http://localhost:8080/q/dev-ui)
-- the API documentation on [http://localhost:8080/q/swagger-ui/](http://localhost:8080/q/swagger-ui/)
+- the back-end API documentation on [http://localhost:8080/q/swagger-ui/](http://localhost:8080/q/swagger-ui/)
 
 Please note the following:
 
