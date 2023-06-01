@@ -2,7 +2,7 @@
   "name": "todolist",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "todolist",
+  "prefix": "tl",
   "sourceRoot": "apps/todolist/src",
   "tags": [],
   "targets": {

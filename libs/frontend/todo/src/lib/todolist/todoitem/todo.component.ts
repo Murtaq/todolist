@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { TodoItem } from './todo-item';
+import { TodoItem } from '@todolist/frontend/api';
 import { TodoStore } from './todo.store';
 
 @Component({
-  selector: 'todolist-item',
+  selector: 'tl-todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.scss'],
   providers: [TodoStore],

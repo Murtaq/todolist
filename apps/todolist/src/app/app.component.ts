@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'todolist-root',
+  selector: 'tl-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

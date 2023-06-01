@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { TodolistStore } from '../todolist.store';
-import { TodoItem } from './todo-item';
-import { combineLatest, map, tap } from 'rxjs';
+import { TodoItem, TodoService } from '@todolist/frontend/api';
+import { Observable, concatMap, map, withLatestFrom } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface TodoState {
   id: number;
@@ -24,8 +25,16 @@ export class TodoStore extends ComponentStore<TodoState> {
   readonly todoText$ = super.select((state) => state.todoText);
   readonly isChecked$ = super.select((state) => state.isChecked);
   readonly isEditMode$ = super.select((state) => state.isEditMode);
+  private readonly item$: Observable<TodoItem> = super.select((state) => ({
+    id: state.id,
+    isChecked: state.isChecked,
+    todoText: state.todoText,
+  }));
 
-  constructor(private readonly todolistStore: TodolistStore) {
+  constructor(
+    private readonly todolistStore: TodolistStore,
+    private readonly todoApiService: TodoService
+  ) {
     super(defaultState);
   }
 
@@ -36,32 +45,56 @@ export class TodoStore extends ComponentStore<TodoState> {
     todoText: newItem.todoText,
   }));
 
-  readonly updateChecked = super.updater((state, isChecked: boolean) => ({
-    ...state,
-    isChecked,
-  }));
-
   readonly updateEditMode = super.updater((state, isEditMode: boolean) => ({
     ...state,
     isEditMode,
   }));
 
-  readonly updateTodoText = super.updater((state, todoText: string) => ({
+  readonly updateLocalTodoText = super.updater((state, todoText: string) => ({
     ...state,
     todoText,
   }));
 
-  private updateTodoInDb = super.effect(() =>
-    combineLatest([this.id$, this.todoText$, this.isChecked$]).pipe(
-      tap(([id, todoText, isChecked]) =>
-        this.todolistStore.updateItemById({
-          id,
-          todoText,
-          isChecked,
-        })
+  readonly updateLocalChecked = super.updater((state, isChecked: boolean) => ({
+    ...state,
+    isChecked,
+  }));
+
+  readonly updateChecked = super.effect((newIsChecked$: Observable<boolean>) =>
+    newIsChecked$.pipe(
+      withLatestFrom(this.item$),
+      map(([isChecked, item]) => ({ ...item, isChecked })),
+      concatMap((item) =>
+        this.todoApiService.update(item.id, item).pipe(
+          tapResponse(
+            () => {
+              this.updateLocalChecked(item.isChecked);
+              this.todolistStore.itemUpdated(item);
+            },
+            (error: HttpErrorResponse) => console.log(error) // TODO: proper error handling
+          )
+        )
       )
     )
   );
 
-  readonly deleteItem = () => this.todolistStore.deleteItemById(this.id$);
+  readonly updateTodoText = super.effect((newTodoText$: Observable<string>) =>
+    newTodoText$.pipe(
+      withLatestFrom(this.item$),
+      map(([newText, item]) => ({ ...item, todoText: newText })),
+      concatMap((item) =>
+        this.todoApiService.update(item.id, item).pipe(
+          tapResponse(
+            () => {
+              this.updateLocalTodoText(item.todoText);
+              this.todolistStore.itemUpdated(item);
+            },
+            (error: HttpErrorResponse) => console.log(error) // TODO: proper error handling
+          )
+        )
+      )
+    )
+  );
+
+  readonly deleteItem = () => this.todolistStore.deleteItem(this.id$);
 }

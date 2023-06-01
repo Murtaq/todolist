@@ -14,7 +14,7 @@ class TextIsEmptyMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'todolist-creator',
+  selector: 'tl-todo-creator',
   templateUrl: './todo-creator.component.html',
   styleUrls: ['./todo-creator.component.scss'],
 })

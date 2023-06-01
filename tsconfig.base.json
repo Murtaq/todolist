@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@todolist/frontend/api": ["libs/frontend/api/src/index.ts"],
       "@todolist/frontend/todo": ["libs/frontend/todo/src/index.ts"]
     }
   },

@@ -1,0 +1,81 @@
+{
+  "name": "todolist-backend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/todolist-backend/src",
+  "projectType": "application",
+  "targets": {
+    "dev": {
+      "executor": "@nxrocks/nx-quarkus:dev",
+      "options": {
+        "root": "apps/todolist-backend"
+      }
+    },
+    "serve": {
+      "executor": "@nxrocks/nx-quarkus:serve",
+      "options": {
+        "root": "apps/todolist-backend"
+      }
+    },
+    "remote-dev": {
+      "executor": "@nxrocks/nx-quarkus:remote-dev",
+      "options": {
+        "root": "apps/todolist-backend"
+      }
+    },
+    "test": {
+      "executor": "@nxrocks/nx-quarkus:test",
+      "options": {
+        "root": "apps/todolist-backend"
+      },
+      "outputs": [
+        "{workspaceRoot}/apps/todolist-backend/target"
+      ]
+    },
+    "clean": {
+      "executor": "@nxrocks/nx-quarkus:clean",
+      "options": {
+        "root": "apps/todolist-backend"
+      }
+    },
+    "build": {
+      "executor": "@nxrocks/nx-quarkus:build",
+      "options": {
+        "root": "apps/todolist-backend"
+      },
+      "dependsOn": [
+        "^install"
+      ],
+      "outputs": [
+        "{workspaceRoot}/apps/todolist-backend/target"
+      ]
+    },
+    "install": {
+      "executor": "@nxrocks/nx-quarkus:install",
+      "options": {
+        "root": "apps/todolist-backend"
+      },
+      "outputs": [
+        "{workspaceRoot}/apps/todolist-backend/target"
+      ]
+    },
+    "package": {
+      "executor": "@nxrocks/nx-quarkus:package",
+      "options": {
+        "root": "apps/todolist-backend"
+      }
+    },
+    "add-extension": {
+      "executor": "@nxrocks/nx-quarkus:add-extension",
+      "options": {
+        "root": "apps/todolist-backend"
+      }
+    },
+    "list-extensions": {
+      "executor": "@nxrocks/nx-quarkus:list-extensions",
+      "options": {
+        "root": "apps/todolist-backend"
+      }
+    }
+  },
+  "tags": []
+}

@@ -8,7 +8,7 @@ import { TodoEditorComponent } from './todo-editor/todo-editor.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
-import { TodoItemComponent } from './todo-item/todo-item.component';
+import { TodoDisplayComponent } from './todo-item/todo-display.component';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
   ],
-  declarations: [TodoComponent, TodoItemComponent, TodoEditorComponent],
+  declarations: [TodoComponent, TodoDisplayComponent, TodoEditorComponent],
   exports: [TodoComponent],
   providers: [],
 })

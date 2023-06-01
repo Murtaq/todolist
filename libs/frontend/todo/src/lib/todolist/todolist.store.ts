@@ -1,53 +1,79 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
-import { TodoItem } from './todoitem/todo-item';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { TodoItem } from '@todolist/frontend/api';
+import { TodoService } from '@todolist/frontend/api';
+import { Observable, concatMap, take, tap } from 'rxjs';
 
 interface TodolistState {
   todoItems: TodoItem[];
-  idCounter: number;
 }
 
 const defaultState: TodolistState = {
-  idCounter: 4,
-  todoItems: [
-    { id: 1, todoText: 'This is the first test item', isChecked: false },
-    { id: 2, todoText: 'This is the second item', isChecked: false },
-    { id: 3, todoText: 'This is the third one', isChecked: false },
-  ],
+  todoItems: [],
 };
 
 @Injectable({ providedIn: 'root' })
 export class TodolistStore extends ComponentStore<TodolistState> {
-  readonly $todoItems = this.select((state) => state.todoItems);
+  readonly todoItems$ = this.select((state) => state.todoItems);
 
-  constructor() {
+  constructor(private readonly todoApiService: TodoService) {
     super(defaultState);
+
+    todoApiService
+      .getAll()
+      .pipe(
+        take(1),
+        tap((items) => this.initTodos(items))
+      )
+      .subscribe();
   }
 
-  readonly updateItemById = (item: TodoItem) => {
-    //TODO: REST calls
-  };
-
-  // this.updater((state, newItem: TodoItem) => ({
-  //   ...state,
-  //   todoItems: state.todoItems.map((oldItem) =>
-  //     oldItem.id === newItem.id ? newItem : oldItem
-  //   ),
-  // }));
-
-  // replace with REST Call
-  readonly deleteItemById = this.updater((state, toDelete: number) => ({
+  private readonly initTodos = this.updater((state, newTodos: TodoItem[]) => ({
     ...state,
-    todoItems: state.todoItems.filter((item) => item.id !== toDelete),
+    todoItems: newTodos,
   }));
 
-  // replace with REST Call
-  readonly addItem = this.updater((state, newValue: string) => ({
+  readonly itemAdded = this.updater((state, newItem: TodoItem) => ({
     ...state,
-    idCounter: state.idCounter + 1,
-    todoItems: [
-      ...state.todoItems,
-      { id: state.idCounter, todoText: newValue, isChecked: false },
-    ],
+    todoItems: [...state.todoItems, newItem],
   }));
+
+  readonly itemUpdated = super.updater((state, updatedItem: TodoItem) => ({
+    ...state,
+    todoItems: state.todoItems.map((oldItem) =>
+      oldItem.id === updatedItem.id ? updatedItem : oldItem
+    ),
+  }));
+
+  readonly itemDeleted = super.updater((state, deletedItem: number) => ({
+    ...state,
+    todoItems: state.todoItems.filter((item) => item.id !== deletedItem),
+  }));
+
+  readonly addItem = super.effect((newItemText$: Observable<string>) =>
+    newItemText$.pipe(
+      concatMap((todoText: string) =>
+        this.todoApiService.createByString(todoText).pipe(
+          tapResponse(
+            (newItem) => this.itemAdded(newItem),
+            (error: HttpErrorResponse) => console.log(error) // TODO: proper error handling
+          )
+        )
+      )
+    )
+  );
+
+  readonly deleteItem = super.effect((id$: Observable<number>) =>
+    id$.pipe(
+      concatMap((id: number) =>
+        this.todoApiService.delete(id).pipe(
+          tapResponse(
+            () => this.itemDeleted(id),
+            (error: HttpErrorResponse) => console.error(error) // TODO: proper error handling
+          )
+        )
+      )
+    )
+  );
 }

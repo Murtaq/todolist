@@ -1,6 +1,6 @@
 <ng-container *ngIf="(isEditMode$ | async) === false; else editMode">
-  <todolist-todoitem />
+  <tl-todo-display />
 </ng-container>
 <ng-template #editMode>
-  <todolist-itemeditor />
+  <tl-todo-editor />
 </ng-template>

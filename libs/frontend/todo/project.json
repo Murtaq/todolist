@@ -1,8 +1,8 @@
 {
-  "name": "todolist-list",
+  "name": "todolist-lib",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/frontend/todo/src",
-  "prefix": "todolist",
+  "prefix": "tl",
   "tags": [],
   "projectType": "library",
   "targets": {

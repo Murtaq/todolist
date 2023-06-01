@@ -4,7 +4,7 @@ import { TodoStore } from '../todo.store';
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'todolist-itemeditor',
+  selector: 'tl-todo-editor',
   templateUrl: './todo-editor.component.html',
   styleUrls: ['./todo-editor.component.scss'],
 })

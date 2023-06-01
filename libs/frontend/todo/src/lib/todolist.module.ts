@@ -7,10 +7,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ApiModule } from '@todolist/frontend/api';
 
 @NgModule({
   imports: [
     CommonModule,
+    ApiModule,
     TodoModule,
     MatInputModule,
     MatButtonModule,

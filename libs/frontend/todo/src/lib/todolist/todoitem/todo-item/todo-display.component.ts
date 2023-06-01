@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { TodoStore } from '../todo.store';
 
 @Component({
-  selector: 'todolist-todoitem',
-  templateUrl: './todo-item.component.html',
-  styleUrls: ['./todo-item.component.scss'],
+  selector: 'tl-todo-display',
+  templateUrl: './todo-display.component.html',
+  styleUrls: ['./todo-display.component.scss'],
 })
-export class TodoItemComponent {
+export class TodoDisplayComponent {
   todoText$ = this.todoStore.todoText$;
   isChecked$ = this.todoStore.isChecked$;
 
