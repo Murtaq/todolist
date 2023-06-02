@@ -21,7 +21,7 @@ In two terminals start
 - the Angular front-end using `nx serve todolist` and
 - the Quarkus back-end using `nx serve todolist-backend`.
 
-Afterwards you can find
+Afterwards you can access
 
 - the Angular front-end on [https://localhost:4200](https://localhost:4200)
 - the Quarkus back-end on [https://localhost:8080](https://localhost:8080)
@@ -31,5 +31,5 @@ Afterwards you can find
 Please note the following:
 
 - The ports 4200 and 8080 have to be available.
-- A PostgreSQL database has to be available at [http://localhost:5432](http://localhost:5432) for the user `postgres` using the password `postgres`.
+- A PostgreSQL database has to be accessible at [localhost:5432](localhost:5432) with the user `postgres` using the password `postgres`.
   - If the database instance has different properties, these values can be changed in the `application.properties` file available at `apps\todolist-backend\src\main\resources`.

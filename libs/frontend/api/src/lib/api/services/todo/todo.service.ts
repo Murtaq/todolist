@@ -1,5 +1,5 @@
 import { BaseService } from '../base.service';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { TodoItem } from '../../models/todo/todo.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -12,7 +12,13 @@ export class TodoService extends BaseService<TodoItem> {
     super();
   }
 
+  override getAll() {
+    return super
+      .getAll()
+      .pipe(map((items) => items.sort((a, b) => a.id - b.id)));
+  }
+
   createByString(todoText: string): Observable<TodoItem> {
-    return this.http.post<TodoItem>(`${this.apiUrl}/${this.path}`, todoText);
+    return this.http.post<TodoItem>(this.baseUrl().build(), todoText);
   }
 }
