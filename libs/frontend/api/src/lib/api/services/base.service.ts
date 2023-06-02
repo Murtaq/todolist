@@ -36,7 +36,6 @@ export abstract class BaseService<T extends BaseModel> {
       .withQueryParam('page', page)
       .withQueryParam('size', pageSize)
       .build();
-    console.log(requestUrl);
     return this.http.get<T[]>(requestUrl);
   }
 

@@ -57,7 +57,7 @@ export class TodolistStore extends ComponentStore<TodolistState> {
         this.todoApiService.createByString(todoText).pipe(
           tapResponse(
             (newItem) => this.itemAdded(newItem),
-            (error: HttpErrorResponse) => console.log(error) // TODO: proper error handling
+            (error: HttpErrorResponse) => console.error(error) // TODO: proper error handling
           )
         )
       )

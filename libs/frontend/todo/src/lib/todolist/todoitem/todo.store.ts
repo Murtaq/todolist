@@ -71,7 +71,7 @@ export class TodoStore extends ComponentStore<TodoState> {
               this.updateLocalChecked(item.isChecked);
               this.todolistStore.itemUpdated(item);
             },
-            (error: HttpErrorResponse) => console.log(error) // TODO: proper error handling
+            (error: HttpErrorResponse) => console.error(error) // TODO: proper error handling
           )
         )
       )
@@ -89,7 +89,7 @@ export class TodoStore extends ComponentStore<TodoState> {
               this.updateLocalTodoText(item.todoText);
               this.todolistStore.itemUpdated(item);
             },
-            (error: HttpErrorResponse) => console.log(error) // TODO: proper error handling
+            (error: HttpErrorResponse) => console.error(error) // TODO: proper error handling
           )
         )
       )
